@@ -1,0 +1,87 @@
+package com.livewell.property.dto;
+
+import com.livewell.property.entity.Gender;
+import com.livewell.property.entity.PropertyType;
+import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class CreatePropertyRequest {
+    
+    @NotBlank(message = "Title is required")
+    @Size(max = 500, message = "Title must not exceed 500 characters")
+    private String title;
+    
+    @Size(max = 2000, message = "Description must not exceed 2000 characters")
+    private String description;
+    
+    @NotNull(message = "Property type is required")
+    private PropertyType propertyType;
+    
+    @NotNull(message = "Number of rooms is required")
+    @Min(value = 1, message = "Number of rooms must be at least 1")
+    private Integer numberOfRooms;
+    
+    @NotNull(message = "Number of bathrooms is required")
+    @Min(value = 1, message = "Number of bathrooms must be at least 1")
+    private Integer numberOfBathrooms;
+    
+    @NotNull(message = "Carpet area is required")
+    @DecimalMin(value = "0.0", inclusive = false, message = "Carpet area must be greater than 0")
+    private Double carpetArea;
+    
+    @NotBlank(message = "Address is required")
+    private String address;
+    
+    @NotBlank(message = "City is required")
+    private String city;
+    
+    @NotBlank(message = "State is required")
+    private String state;
+    
+    @NotBlank(message = "Pincode is required")
+    @Pattern(regexp = "^[0-9]{6}$", message = "Pincode must be 6 digits")
+    private String pincode;
+    
+    private Double latitude;
+    
+    private Double longitude;
+    
+    @NotNull(message = "Rent per month is required")
+    @DecimalMin(value = "0.0", inclusive = false, message = "Rent must be greater than 0")
+    private Double rentPerMonth;
+    
+    private Double securityDeposit;
+    
+    @NotNull(message = "Maintenance charges is required")
+    @DecimalMin(value = "0.0", message = "Maintenance charges must be 0 or greater")
+    private Double maintenanceCharges;
+    
+    private List<String> amenities;
+    
+    private List<String> images;
+    
+    private List<String> videos;
+    
+    private String video360Url;
+    
+    @NotNull(message = "Furnished status is required")
+    private Boolean isFurnished;
+    
+    @NotNull(message = "Pets allowed status is required")
+    private Boolean isPetsAllowed;
+    
+    private LocalDateTime availableFrom;
+    
+    @Min(value = 18, message = "Preferred tenant age must be at least 18")
+    private Integer preferredTenantAge;
+    
+    private Gender preferredGender;
+}
