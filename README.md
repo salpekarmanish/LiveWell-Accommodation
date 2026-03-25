@@ -15,9 +15,9 @@
 
 ## 🏠 About the Project
 
-> **LiveWell Accommodation** is a full-stack web application designed to simplify the process of finding, managing, and renting properties. It connects **tenants**, **property owners**, and **administrators** on a single platform — making property management more efficient and user-friendly.
+> **LiveWell Accommodation** is a full-stack web application built on a **Microservices Architecture** using **Java & Spring Boot**. It simplifies the process of finding, managing, and renting properties — connecting **tenants**, **property owners**, and **administrators** on a single platform.
 
-Whether you're a tenant searching for your next home, a landlord listing your property, or an admin overseeing the platform — LiveWell has you covered.
+Each core feature runs as an independent microservice, communicating through a centralized **API Gateway** for scalability and maintainability.
 
 ---
 
@@ -30,7 +30,7 @@ Whether you're a tenant searching for your next home, a landlord listing your pr
 | 🧑‍💼 **Admin** | Manage users, approve listings, monitor activity |
 | 🏡 **Property Owner** | Add, edit & remove property listings |
 | 🔍 **Tenant** | Browse, search, filter & book accommodations |
-| 🔐 **Auth System** | Secure login & registration with role-based access |
+| 🔐 **Auth System** | Secure JWT login with role-based access control |
 | 📱 **Responsive UI** | Fully mobile-friendly across all devices |
 | 📸 **Image Upload** | Upload and showcase property photos |
 | 📩 **Booking Requests** | Tenants can send and track rental inquiries |
@@ -50,9 +50,11 @@ Whether you're a tenant searching for your next home, a landlord listing your pr
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
 
 ### ⚙️ Backend
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
-![REST API](https://img.shields.io/badge/REST%20API-FF6B6B?style=for-the-badge&logo=fastapi&logoColor=white)
+![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
+![Spring Security](https://img.shields.io/badge/Spring%20Security-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white)
+![Spring Cloud Gateway](https://img.shields.io/badge/API%20Gateway-Spring%20Cloud-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
+![Microservices](https://img.shields.io/badge/Architecture-Microservices-FF6B6B?style=for-the-badge&logo=apachekafka&logoColor=white)
 
 ### 🗄️ Database
 ![MySQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)
@@ -62,30 +64,71 @@ Whether you're a tenant searching for your next home, a landlord listing your pr
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
 ![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
 ![VS Code](https://img.shields.io/badge/VS%20Code-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white)
+![IntelliJ IDEA](https://img.shields.io/badge/IntelliJ%20IDEA-000000?style=for-the-badge&logo=intellijidea&logoColor=white)
 ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
+![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white)
+
+---
+
+## 🏗️ Microservices Architecture
+```
+                        ┌─────────────────────┐
+                        │     React Frontend   │
+                        └──────────┬──────────┘
+                                   │
+                        ┌──────────▼──────────┐
+                        │    API Gateway       │
+                        │  (Spring Cloud GW)   │
+                        └──┬──────┬──────┬────┘
+                           │      │      │
+              ┌────────────▼┐  ┌──▼───┐ ┌▼──────────────┐
+              │Auth Service │  │Prop. │ │Booking Service │
+              │(JWT + Roles)│  │Svc   │ │                │
+              └────────────┘  └──────┘ └────────────────┘
+                           │      │      │
+                    ┌──────▼──────▼──────▼──────┐
+                    │     MySQL / MongoDB         │
+                    └───────────────────────────┘
+```
 
 ---
 
 ## 🗂️ Project Structure
-
 ```
 LiveWell-Accommodation/
-├── client/                  # Frontend (React)
-│   ├── public/
+│
+├── 📂 api-gateway/                  # Spring Cloud API Gateway
+│   └── src/main/resources/
+│       └── application.yml          # Route configurations
+│
+├── 📂 auth-service/                 # Authentication Microservice
+│   ├── controller/
+│   ├── service/
+│   ├── model/
+│   └── security/                    # JWT config & filters
+│
+├── 📂 property-service/             # Property Listing Microservice
+│   ├── controller/
+│   ├── service/
+│   └── model/
+│
+├── 📂 booking-service/              # Booking Microservice
+│   ├── controller/
+│   ├── service/
+│   └── model/
+│
+├── 📂 user-service/                 # User Management Microservice
+│   ├── controller/
+│   ├── service/
+│   └── model/
+│
+├── 📂 client/                       # React Frontend
 │   └── src/
-│       ├── components/      # Reusable UI components
-│       ├── pages/           # Page-level components
-│       ├── context/         # Auth & global state
+│       ├── components/
+│       ├── pages/
 │       └── App.js
-├── server/                  # Backend (Node + Express)
-│   ├── controllers/         # Route handlers
-│   ├── models/              # DB models/schemas
-│   ├── routes/              # API routes
-│   ├── middleware/          # Auth middleware
-│   └── server.js
-├── .env.example
-├── package.json
-└── README.md
+│
+└── 📄 README.md
 ```
 
 ---
@@ -94,79 +137,83 @@ LiveWell-Accommodation/
 
 ### Prerequisites
 
+- Java 17+
+- Maven 3.8+
 - Node.js v18+
-- npm or yarn
-- MongoDB or MySQL running locally
+- MySQL / MongoDB running locally
 
 ### Installation
-
 ```bash
 # 1. Clone the repository
 git clone https://github.com/salpekarmanish/LiveWell-Accommodation.git
 
 # 2. Navigate into the project
 cd LiveWell-Accommodation
+```
 
-# 3. Install server dependencies
-cd server
-npm install
+### Run Each Microservice
+```bash
+# Start API Gateway (port 8080)
+cd api-gateway
+mvn spring-boot:run
 
-# 4. Install client dependencies
-cd ../client
+# Start Auth Service (port 8081)
+cd auth-service
+mvn spring-boot:run
+
+# Start Property Service (port 8082)
+cd property-service
+mvn spring-boot:run
+
+# Start Booking Service (port 8083)
+cd booking-service
+mvn spring-boot:run
+
+# Start Frontend
+cd client
 npm install
+npm start
 ```
 
 ### Environment Variables
 
-Create a `.env` file in the `/server` directory:
+In each service's `application.yml` or `.env`:
+```yaml
+server:
+  port: 8081
 
-```env
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret_key
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/livewell
+    username: root
+    password: your_password
+
+jwt:
+  secret: your_jwt_secret_key
+  expiration: 86400000
 ```
-
-### Running the App
-
-```bash
-# Start the backend server
-cd server
-npm start
-
-# In a new terminal, start the frontend
-cd client
-npm start
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser. 🎉
 
 ---
 
-## 📸 Screenshots
+## 🔗 API Gateway Routes
 
-> _Screenshots coming soon — stay tuned!_
+All requests go through `http://localhost:8080`
 
----
-
-## 🔗 API Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/register` | Register a new user |
-| POST | `/api/auth/login` | Login and get token |
-| GET | `/api/properties` | Get all listings |
-| POST | `/api/properties` | Add new property (owner) |
-| PUT | `/api/properties/:id` | Update a listing |
-| DELETE | `/api/properties/:id` | Delete a listing |
-| POST | `/api/bookings` | Submit a booking request |
-| GET | `/api/bookings/:userId` | Get user's bookings |
+| Method | Gateway Route | Forwarded To | Description |
+|--------|--------------|-------------|-------------|
+| POST | `/api/auth/register` | auth-service | Register new user |
+| POST | `/api/auth/login` | auth-service | Login & get JWT token |
+| GET | `/api/properties` | property-service | Get all listings |
+| POST | `/api/properties` | property-service | Add new property |
+| PUT | `/api/properties/{id}` | property-service | Update a listing |
+| DELETE | `/api/properties/{id}` | property-service | Delete a listing |
+| POST | `/api/bookings` | booking-service | Submit booking request |
+| GET | `/api/bookings/{userId}` | booking-service | Get user bookings |
+| GET | `/api/users` | user-service | Get all users (admin) |
 
 ---
 
 ## 🤝 Contributing
-
-Contributions are welcome! Here's how:
-
 ```bash
 # 1. Fork the repository
 # 2. Create your feature branch
@@ -193,14 +240,12 @@ Distributed under the MIT License. See [`LICENSE`](LICENSE) for more information
 
 <div align="center">
 
-<img src="https://avatars.githubusercontent.com/manish4567890" width="80" style="border-radius:50%;"/>
-
 **Manish Salpekar**
-*IT Software Developer | Fresher*
+*Java Backend Developer | Spring Boot | Microservices*
 
 [![Email](https://img.shields.io/badge/📧%20Email-manishsalpekar3%40gmail.com-00d4ff?style=for-the-badge&logo=gmail&logoColor=white)](mailto:manishsalpekar3@gmail.com)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-ManishSalpekar-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/manishsalpekar)
-[![GitHub](https://img.shields.io/badge/GitHub-manish4567890-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/manish4567890)
+[![GitHub](https://img.shields.io/badge/GitHub-salpekarmanish-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/salpekarmanish)
 
 </div>
 
